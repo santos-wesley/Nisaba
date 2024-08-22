@@ -1,0 +1,48 @@
+activity ER Triage
+activity ER Registration
+activity ER Sepsis Triage
+activity Leucocytes
+activity CRP
+activity LacticAcid
+activity IV Antibiotics
+activity Admission NC
+activity IV Liquid
+activity Release A
+activity Return ER
+activity Admission IC
+bind ER Triage: org:group, Diagnose, Age
+bind ER Registration: InfectionSuspected, DiagnosticBlood, Age
+bind ER Sepsis Triage: org:group, Diagnose, Age
+bind Leucocytes: Leucocytes, org:group, Diagnose, Age
+bind CRP: CRP, org:group, Diagnose, Age
+bind LacticAcid: LacticAcid, org:group, Diagnose, Age
+bind IV Antibiotics: org:group, Diagnose, Age
+bind Admission NC: org:group, Diagnose, Age
+bind IV Liquid: org:group, Diagnose, Age
+bind Release A: org:group, Diagnose, Age
+bind Return ER: org:group, Diagnose, Age
+bind Admission IC: org:group, Diagnose, Age
+org:group: group1, group2, group3
+Diagnose: Diagnosis1, Diagnosis2, Diagnosis3
+Age: integer between 0 and 120
+InfectionSuspected: Yes, No
+DiagnosticBlood: Yes, No
+Leucocytes: integer between 1000 and 40000
+CRP: Low, Medium, High
+LacticAcid: Normal, Elevated, High
+Init[ER Triage] | |
+Exactly[ER Registration] | |
+Choice[ER Triage, LacticAcid] | | |
+Choice[ER Registration, IV Liquid] | | |
+Choice[ER Sepsis Triage, Leucocytes] | | |
+Existence[Leucocytes] | |
+Existence[CRP] | |
+Choice[LacticAcid, IV Antibiotics] | | |
+Absence[IV Antibiotics] | |
+Choice[ER Registration, Admission NC] | | |
+Absence[IV Liquid] | |
+Absence[Release A] | |
+Choice[ER Triage, Return ER] | | |
+Absence[Return ER] | |
+Choice[ER Triage, Admission IC] | | |
+Absence[Admission IC] | |

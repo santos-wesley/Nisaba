@@ -1,0 +1,53 @@
+## Driving Test Process Description
+
+### 1. Overall Activity Context
+
+The driving test process is designed to evaluate and certify individuals' driving skills, ensuring they meet the required standards to receive a driving license. The process involves several key activities: taking the initial driving test, receiving a license upon passing, retaking the test if failed, and recording the failure. The activities are interconnected through specific constraints and attributes, ensuring a structured and fair evaluation process.
+
+### 2. Process Flow Description
+
+The process begins with the **Driving_Test** activity, where a candidate, identified by the attribute 'Driver' (Fabrizio, Mike, Marlon, or Raimundas), takes the initial driving test. The performance of the candidate is quantified by the 'Grade' attribute, which ranges from 1 to 5.
+
+#### Driving_Test
+
+- **Attributes**: Driver, Grade
+- **Description**: This activity initiates the process, where the candidate's driving skills are assessed, and a grade is assigned.
+
+Upon completion of the **Driving_Test**, the process flow diverges based on the grade received:
+
+1. **Getting_License**: If the candidate scores above 2 (Grade > 2), the **Getting_License** activity is triggered.
+   - **Attributes**: Driver, Grade
+   - **Description**: This activity signifies the candidate receiving their driving license.
+   - **Constraint**: Response[Driving_Test, Getting_License] | |T.Grade>2 |: This constraint ensures that the **Getting_License** activity occurs only if the candidate's grade is above 2.
+
+2. **Resit**: If the candidate scores 2 or below (Grade <= 2), the **Resit** activity is triggered.
+   - **Attributes**: Driver, Grade
+   - **Description**: This activity represents the candidate retaking the driving test.
+   - **Constraint**: Response[Driving_Test, Resit] |A.Grade<=2 | |: This constraint mandates that candidates who score 2 or below must retake the test.
+
+3. **Test_Failed**: Simultaneously, if the candidate scores 2 or below (Grade <= 2), the **Test_Failed** activity is also triggered.
+   - **Attributes**: Driver
+   - **Description**: This activity records the failure of the candidate.
+   - **Constraint**: Response[Driving_Test, Test_Failed] |A.Grade<=2 | |: This constraint ensures that the **Test_Failed** activity is activated if the candidate's grade is 2 or below.
+
+### 3. Constraint Integration
+
+The constraints play a crucial role in guiding the process flow:
+
+- **Response[Driving_Test, Getting_License] | |T.Grade>2 |**: This constraint ensures that only candidates who score above 2 proceed to receive their license. It directly links the performance in the driving test to the eligibility for obtaining a license.
+  
+- **Response[Driving_Test, Resit] |A.Grade<=2 | |**: This constraint mandates that candidates who score 2 or below must retake the test. It provides an opportunity for candidates to improve their skills and pass the test on a subsequent attempt.
+  
+- **Response[Driving_Test, Test_Failed] |A.Grade<=2 | |**: This constraint ensures that the failure is formally recorded if a candidate scores 2 or below. It highlights the need for improvement and the requirement to retake the test.
+
+### 4. Constraint Application
+
+The constraints impact the process flow by:
+
+- **Decision-Making**: The constraints determine the subsequent activities based on the candidate's grade, ensuring a structured decision-making process.
+- **Branching**: The process branches into different paths (Getting_License, Resit, Test_Failed) based on the grade, ensuring appropriate actions are taken for each outcome.
+- **Conditions**: The constraints set clear conditions for each activity, ensuring that the process is fair and consistent.
+
+### 5. Conclusion
+
+In summary, the driving test process is a structured evaluation system that assesses candidates' driving skills and determines their eligibility for a driving license. The process is initiated by the **Driving_Test** activity, followed by branching into **Getting_License**, **Resit**, or **Test_Failed** activities based on the candidate's grade. The constraints ensure a fair and consistent process, guiding the flow and decision-making based on the performance of the candidates. The most critical constraints are those linking the driving test outcomes to subsequent activities, ensuring that only qualified candidates receive a license, while those who fail are given opportunities to improve and retake the test.

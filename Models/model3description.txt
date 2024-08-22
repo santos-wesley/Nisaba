@@ -1,0 +1,74 @@
+# Business Process Description
+
+### 1. Overall Activity Context
+
+The business process described here pertains to the submission, evaluation, and approval of research and course proposals within an academic institution. The process encompasses activities from the initial submission of proposals to the allocation of funding for research and the scheduling of approved courses. The activities are interconnected through various constraints and attributes that ensure a structured and logical flow of tasks.
+
+### 2. Process Flow Description
+
+#### Initiation: Submit Research Proposal
+
+The process begins with the 'Submit Research Proposal' activity, where a faculty member submits a research proposal. This activity is bound to the attributes 'Proposal ID', 'Faculty ID', and 'Research Area', ensuring that each submission is uniquely identified and associated with a specific faculty member and research field. The constraint `Init[Submit Research Proposal]` mandates that this activity must initiate the process.
+
+#### Review and Decision: Research Proposal
+
+Although the 'Review Research Proposal' activity is defined, the constraint `Absence[Review Research Proposal]` specifies that this activity must not occur in the process. Therefore, the review of the research proposal is not required, and the process directly proceeds to the decision-making stage.
+
+#### Approval or Rejection: Research Proposal
+
+The committee then decides on the proposal. If the proposal is approved, the 'Approve Research Proposal' activity occurs. This activity must be immediately followed by the 'Allocate Research Funding' activity, as dictated by the `Chain Succession[Approve Research Proposal, Allocate Research Funding]` constraint, within a time window of 2 days. The allocation of funds is bound to the attributes 'Proposal ID', 'Faculty ID', and 'Research Funding Amount'.
+
+If the proposal is rejected, the 'Reject Research Proposal' activity occurs. The constraint `Not Succession[Reject Research Proposal, Conduct Research]` ensures that the 'Conduct Research' activity must not follow a rejected proposal, preventing any research work from commencing on a rejected proposal.
+
+#### Conducting Research
+
+Once the research funding is allocated, the 'Conduct Research' activity must occur, as specified by the `Response[Allocate Research Funding, Conduct Research]` constraint. This activity is bound to the attributes 'Proposal ID', 'Faculty ID', and 'Research Funding Amount'. Additionally, the `Exactly[Conduct Research]` constraint ensures that this activity occurs exactly once in the process.
+
+#### Reporting and Evaluation
+
+After conducting the research, the faculty member submits a research report through the 'Submit Research Report' activity. This activity is bound to the attributes 'Proposal ID', 'Faculty ID', and 'Report Status'. The `Precedence[Submit Research Report, Conduct Research]` constraint ensures that the report submission follows the research work.
+
+The submitted research report is then evaluated by the committee in the 'Evaluate Research Report' activity. If the report is approved, the 'Approve Research Report' activity must immediately follow, as specified by the `Chain Succession[Approve Research Report, Evaluate Research Report]` constraint, within a time window of 24 hours. If the report is rejected, the 'Reject Research Report' activity occurs.
+
+#### Course Proposal Submission and Review
+
+Parallel to the research proposal process, faculty members can submit course proposals through the 'Submit Course Proposal' activity. This activity is bound to the attributes 'Course ID', 'Faculty ID', and 'Course Level'. The `Alternate Response[Submit Course Proposal, Review Course Proposal]` constraint ensures that each submission is followed by a review.
+
+The 'Review Course Proposal' activity, bound to the attributes 'Course ID', 'Committee Decision', and 'Review Status', evaluates the submitted course proposal. The `Alternate Precedence[Review Course Proposal, Submit Course Proposal]` constraint ensures that each review is preceded by a submission.
+
+#### Approval or Rejection: Course Proposal
+
+If the course proposal is approved, the 'Approve Course Proposal' activity occurs. The `Response[Approve Course Proposal, Schedule Course]` constraint mandates that the 'Schedule Course' activity must occur within 7 days following the approval, linking the approval to the scheduling of the course. This activity is bound to the attributes 'Course ID', 'Faculty ID', and 'Schedule Status'.
+
+If the course proposal is rejected, the 'Reject Course Proposal' activity occurs. The constraint `Not Succession[Reject Course Proposal, Schedule Course]` ensures that the 'Schedule Course' activity must not follow a rejected proposal, preventing the scheduling of rejected courses.
+
+#### Scheduling the Course
+
+The 'Schedule Course' activity marks the end of the process, as specified by the `End[Schedule Course]` constraint. This activity ensures that the approved course is scheduled for the academic calendar.
+
+### 3. Constraint Integration
+
+Throughout the process, various constraints ensure a structured flow of activities:
+
+- **Unary Constraints**:
+  - `Init[Submit Research Proposal]`: Ensures the process starts with the submission of a research proposal.
+  - `Absence[Review Research Proposal]`: Specifies that the review of the research proposal is not required.
+  - `Exactly[Conduct Research]`: Ensures the research is conducted only once.
+  - `End[Schedule Course]`: Marks the scheduling of the course as the final activity.
+
+- **Binary Constraints**:
+  - `Precedence[Review Research Proposal, Submit Research Proposal]`: Ensures the review follows the submission.
+  - `Chain Succession[Approve Research Proposal, Allocate Research Funding]`: Ensures immediate allocation of funds after approval.
+  - `Response[Allocate Research Funding, Conduct Research]`: Links funding allocation to the commencement of research.
+  - `Precedence[Submit Research Report, Conduct Research]`: Ensures report submission follows research.
+  - `Chain Succession[Approve Research Report, Evaluate Research Report]`: Ensures immediate evaluation after approval.
+  - `Alternate Response[Submit Course Proposal, Review Course Proposal]`: Ensures each course proposal submission is followed by a review.
+  - `Alternate Precedence[Review Course Proposal, Submit Course Proposal]`: Ensures each review is preceded by a submission.
+  - `Response[Approve Course Proposal, Schedule Course]`: Links course approval to scheduling.
+  - `Exclusive Choice[Submit Course Proposal, Schedule Course]`: Specifies that either submission or scheduling can occur, but not both, within 24 hours.
+  - `Not Succession[Reject Course Proposal, Schedule Course]`: Prevents scheduling of rejected courses.
+  - `Not Succession[Reject Research Proposal, Conduct Research]`: Prevents research on rejected proposals.
+
+### 4. Conclusion
+
+This business process model ensures a structured and logical flow of activities for the submission, evaluation, and approval of research and course proposals within an academic institution. Key constraints such as the initiation with 'Submit Research Proposal', the absence of 'Review Research Proposal', and the exact occurrence of 'Conduct Research' ensure a streamlined process. Binary constraints like chain succession, response, and precedence further define the order and dependencies between activities, ensuring a coherent and efficient process execution.

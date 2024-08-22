@@ -1,0 +1,45 @@
+activity Submit Research Proposal
+activity Review Research Proposal
+activity Approve Research Proposal
+activity Reject Research Proposal
+activity Allocate Research Funding
+activity Conduct Research
+activity Submit Research Report
+activity Evaluate Research Report
+activity Approve Research Report
+activity Reject Research Report
+activity Submit Course Proposal
+activity Review Course Proposal
+activity Approve Course Proposal
+activity Reject Course Proposal
+activity Schedule Course
+bind Submit Research Proposal: Proposal ID, Faculty ID, Research Area
+bind Allocate Research Funding: Proposal ID, Faculty ID, Research Funding Amount
+bind Conduct Research: Proposal ID, Faculty ID, Research Funding Amount
+bind Submit Research Report: Proposal ID, Faculty ID, Report Status
+bind Submit Course Proposal: Course ID, Faculty ID, Course Level
+bind Review Course Proposal: Course ID, Committee Decision, Review Status
+bind Schedule Course: Course ID, Faculty ID, Schedule Status
+Proposal ID: integer between 1 and 999999
+Faculty ID: integer between 1 and 99999
+Research Area: Computer Science, Biotechnology, Physics, Mathematics
+Research Funding Amount: float between 1000 and 1000000
+Report Status: Submitted, Pending, Approved, Rejected
+Course ID: integer between 1 and 999999
+Course Level: Undergraduate, Postgraduate
+Committee Decision: Approved, Rejected, Pending
+Review Status: Reviewed, Not Reviewed
+Schedule Status: Scheduled, Not Scheduled
+Init[Submit Research Proposal] | |
+Absence[Review Research Proposal] | |
+Chain Succession[Approve Research Proposal, Allocate Research Funding] | | |0,2,d
+Not Succession[Reject Research Proposal, Conduct Research] | | |
+Response[Allocate Research Funding, Conduct Research] | | |
+Exactly[Conduct Research] | |
+Precedence[Submit Research Report, Conduct Research] | | |
+Chain Succession[Approve Research Report, Evaluate Research Report] | | |0,24,h
+Alternate Response[Submit Course Proposal, Review Course Proposal] | | |
+Alternate Precedence[Review Course Proposal, Submit Course Proposal] | | |
+Response[Approve Course Proposal, Schedule Course] | | |0,7,d
+Not Succession[Reject Course Proposal, Schedule Course] | | |
+End[Schedule Course] | |

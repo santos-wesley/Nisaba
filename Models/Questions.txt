@@ -1,0 +1,16 @@
+1. Based in the following guidelines:
+{guidelines}
+Rate how this description adequates to it from 1-10.
+Justify the rating.
+
+2. On a scale of 1-10, how well does the generated description capture the essential elements of the MP-Declare model?
+Justify the rating.
+
+3. On a scale of 1-10, how well does the description facilitate understanding of the process model for someone without technical background in process modeling?
+Justify the rating.
+
+4. On a scale of 1-10, how well does the description balance providing detailed information with maintaining overall clarity?
+Justify the rating.
+
+5. Rate from 1-10 the description's effectiveness in explaining how data attributes and resources are integrated into the process model.
+Justify the rating.
